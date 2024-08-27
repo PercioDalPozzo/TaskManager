@@ -19,5 +19,16 @@ namespace Repository
         {
             
         }
+
+        public Domain.Entity.Task GetById(Guid id)
+        {
+            //Mock
+            return new Domain.Entity.Task(Guid.NewGuid(),"","",DateTime.Now);
+        }
+
+        public void Update(Domain.Entity.Task task)
+        {
+            
+        }
     }
 }

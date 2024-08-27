@@ -1,5 +1,6 @@
 ﻿using Api.Controllers.Dto;
 using Api.Dtos;
+using Domain.Commands.TaskConclude;
 using Domain.Commands.TaskCreate;
 using Domain.Commands.TaskDelete;
 using Domain.Commands.UserRegister;
@@ -21,11 +22,16 @@ namespace Api.Controllers
     {
         private readonly ICommandResultHandler<TaskCreateCommand, Guid> _handlerCreate;
         private readonly ICommandHandler<TaskDeleteCommand> _handlerDelete;
+        private readonly ICommandHandler<TaskConcludeCommand> _handlerConclude;
 
-        public TasksController(ICommandResultHandler<TaskCreateCommand, Guid> handlerCreate, ICommandHandler<TaskDeleteCommand> handlerDelete)
+        public TasksController(
+            ICommandResultHandler<TaskCreateCommand, Guid> handlerCreate,
+            ICommandHandler<TaskDeleteCommand> handlerDelete, 
+            ICommandHandler<TaskConcludeCommand> handlerConclude)
         {
             _handlerCreate = handlerCreate;
             _handlerDelete = handlerDelete;
+            _handlerConclude = handlerConclude;
         }
 
         [HttpPost]
@@ -39,6 +45,13 @@ namespace Api.Controllers
         public IActionResult Delete(TaskDeleteCommand command)
         {
             _handlerDelete.Handle(command);
+            return Ok();
+        }
+
+        [HttpPut]
+        public IActionResult Conclude(TaskConcludeCommand command)
+        {
+            _handlerConclude.Handle(command);
             return Ok();
         }
 

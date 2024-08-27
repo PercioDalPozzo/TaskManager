@@ -10,5 +10,7 @@ namespace Domain.Interfaces
     {
         void Add(Entity.Task task);
         void Delete(Guid id);
+        Entity.Task GetById(Guid id);
+        void Update(Entity.Task task);
     }
 }

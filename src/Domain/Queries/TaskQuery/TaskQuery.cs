@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Commands.TaskDelete
+namespace Domain.Commands.TaskQuery
 {
-    public record TaskDeleteCommand(Guid Id) 
+    public record TaskQuery(Guid Id)
     {
-
+        
     }
 }

@@ -10,6 +10,19 @@ namespace Repository
 {
     public class TaskRepository : ITaskRepository
     {
+
+        IEnumerable<Domain.Entity.Task> ITaskRepository.GetAll()
+        {
+            //Mock
+            return new List<Domain.Entity.Task>()
+            {
+                new Domain.Entity.Task(Guid.NewGuid(), "", "", DateTime.Now),
+                new Domain.Entity.Task(Guid.NewGuid(), "", "", DateTime.Now),
+                new Domain.Entity.Task(Guid.NewGuid(), "", "", DateTime.Now),
+                new Domain.Entity.Task(Guid.NewGuid(), "", "", DateTime.Now)
+            };
+        }
+
         public void Add(Domain.Entity.Task task)
         {
             
@@ -20,10 +33,11 @@ namespace Repository
             
         }
 
+
         public Domain.Entity.Task GetById(Guid id)
         {
             //Mock
-            return new Domain.Entity.Task(Guid.NewGuid(),"","",DateTime.Now);
+            return new Domain.Entity.Task(Guid.NewGuid(), "", "", DateTime.Now);
         }
 
         public void Update(Domain.Entity.Task task)

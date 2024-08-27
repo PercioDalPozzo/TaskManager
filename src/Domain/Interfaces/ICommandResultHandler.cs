@@ -9,5 +9,5 @@ namespace Domain.Interfaces
     public interface ICommandResultHandler<TCommand, TResult>
     {
         TResult Handle(TCommand command);
-    }
+    }    
 }

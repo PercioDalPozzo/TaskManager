@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.TaskConclude
 {
-    public class TaskConcludeCommand
+    public record TaskConcludeCommand(Guid Id)
     {
-        public Guid Id { get;  set; }
+
     }
 }

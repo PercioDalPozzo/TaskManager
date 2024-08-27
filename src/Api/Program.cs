@@ -2,6 +2,7 @@ using Domain.Commands.Taskconclude;
 using Domain.Commands.TaskConclude;
 using Domain.Commands.TaskCreate;
 using Domain.Commands.TaskDelete;
+using Domain.Commands.TaskQuery;
 using Domain.Commands.UserRegister;
 using Domain.Interfaces;
 using Domain.Services;
@@ -34,6 +35,10 @@ internal class Program
         builder.Services.AddScoped<ICommandResultHandler<TaskCreateCommand, Guid>, TaskCreateCommandHandler>();
         builder.Services.AddScoped<ICommandHandler<TaskDeleteCommand>, TaskDeleteCommandHandler>();
         builder.Services.AddScoped<ICommandHandler<TaskConcludeCommand>, TaskConcludeCommandHandler>();
+        builder.Services.AddScoped<IQueryHandler<TaskQuery, TaskQueryResponse>, TaskQueryHandler>();
+
+
+        
 
 
         //builder.Services.AddControllers()

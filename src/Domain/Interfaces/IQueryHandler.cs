@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Commands.TaskDelete
+namespace Domain.Interfaces
 {
-    public record TaskDeleteCommand(Guid Id) 
+    public interface IQueryHandler<TQuery, TResult>
     {
-
-    }
+        TResult Handle(TQuery query);
+    }    
 }

@@ -12,17 +12,17 @@ namespace Domain.Commands.UserRegister
     public class UserRegisterCommandHandler : ICommandHandler<UserRegisterCommand>
     {
         private readonly IUserRepository _userRepository;
-        private readonly IAuthenticationService _authService;
+        private readonly IAuthenticationService _authenticationService;
 
-        public UserRegisterCommandHandler(IUserRepository userRepository, IAuthenticationService authService)
+        public UserRegisterCommandHandler(IUserRepository userRepository, IAuthenticationService authenticationService)
         {
             _userRepository = userRepository;
-            _authService = authService;
+            _authenticationService = authenticationService;
         }
 
         public void Handle(UserRegisterCommand command)
         {
-            var encryptedPassword = _authService.Encrypt(command.Password);
+            var encryptedPassword = _authenticationService.Encrypt(command.Password);
 
             _userRepository.Add(new User(command.Login, encryptedPassword));
         }

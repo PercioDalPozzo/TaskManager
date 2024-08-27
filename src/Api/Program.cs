@@ -1,3 +1,4 @@
+using Domain.Commands.TaskCreate;
 using Domain.Commands.UserRegister;
 using Domain.Interfaces;
 using Domain.Services;
@@ -23,8 +24,11 @@ internal class Program
 
 
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<ITaskRepository, TaskRepository>();
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+
         builder.Services.AddScoped<ICommandHandler<UserRegisterCommand>, UserRegisterCommandHandler>();
+        builder.Services.AddScoped<ICommandResultHandler<TaskCreateCommand, Guid>, TaskCreateCommandHandler>();
 
 
         //builder.Services.AddControllers()

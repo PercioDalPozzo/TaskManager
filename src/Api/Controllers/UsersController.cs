@@ -11,7 +11,7 @@ using System.Text;
 namespace Api.Controllers
 {
     [ApiController]
-    [Route("/api/users/")]
+    [Route("/api/[controller]/")]
     public class UsersController : ControllerBase
     {
         private readonly ICommandHandler<UserRegisterCommand> _handler;

@@ -14,5 +14,10 @@ namespace Repository
         {
             
         }
+
+        public void Delete(Guid id)
+        {
+            
+        }
     }
 }

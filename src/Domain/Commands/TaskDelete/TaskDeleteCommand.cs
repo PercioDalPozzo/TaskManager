@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Interfaces
+namespace Domain.Commands.TaskDelete
 {
-    public interface ITaskRepository
+    public class TaskDeleteCommand
     {
-        void Add(Entity.Task task);
-        void Delete(Guid id);
+        public Guid Id { get;  set; }        
     }
 }

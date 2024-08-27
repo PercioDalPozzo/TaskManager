@@ -13,10 +13,12 @@ namespace Domain.Commands.TaskCreate
     public class TaskCreateCommandHandler : ICommandResultHandler<TaskCreateCommand, Guid>
     {
         private readonly ITaskRepository _taskRepository;
+        private readonly INotificationService _notificationService;
 
-        public TaskCreateCommandHandler(ITaskRepository taskRepository)
+        public TaskCreateCommandHandler(ITaskRepository taskRepository, INotificationService notificationService)
         {
             _taskRepository = taskRepository;
+            _notificationService = notificationService;
         }
 
         public Guid Handle(TaskCreateCommand command)
@@ -24,6 +26,8 @@ namespace Domain.Commands.TaskCreate
             var task = new Entity.Task(command.UserId,command.Title, command.Description,command.LimitToComplete);
             
             _taskRepository.Add(task);
+
+            _notificationService.AddNotificationByTask(task);
 
             return task.Id;
         }

@@ -10,15 +10,15 @@ namespace Repository
 {
     public class UserRepository : IUserRepository
     {
-        public void Add(User user)
-        {
-            
-        }
-
         public User GetByLogin(string login)
         {
             //mock
-            return new User("Pércio","");
+            return new User("Pércio", "");
         }
+
+        public void Add(User user)
+        {
+            
+        }       
     }
 }

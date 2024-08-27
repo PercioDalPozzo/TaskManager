@@ -1,3 +1,4 @@
+using Domain.Commands.NotificationQuery;
 using Domain.Commands.Taskconclude;
 using Domain.Commands.TaskConclude;
 using Domain.Commands.TaskCreate;
@@ -29,7 +30,9 @@ internal class Program
 
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<ITaskRepository, TaskRepository>();
+        builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
+        builder.Services.AddScoped<INotificationService, NotificationService>();
 
         builder.Services.AddScoped<ICommandHandler<UserRegisterCommand>, UserRegisterCommandHandler>();
         builder.Services.AddScoped<ICommandResultHandler<TaskCreateCommand, Guid>, TaskCreateCommandHandler>();
@@ -38,7 +41,9 @@ internal class Program
         builder.Services.AddScoped<IQueryHandler<TaskQuery, TaskQueryResponse>, TaskQueryHandler>();
 
 
-        
+        builder.Services.AddScoped<ICommandHandler<NotificationReadCommand>, NotificationReadCommandHandler>();
+        builder.Services.AddScoped<IQueryHandler<NotificationQuery, NotificationQueryResponse>, NotificationQueryHandler>();
+
 
 
         //builder.Services.AddControllers()

@@ -59,8 +59,8 @@ namespace Api.Controllers
             return Ok();
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Conclude(string id)
+        [HttpPut("{id}/complete")]
+        public IActionResult Complete(string id)
         {
             _concludeHandler.Handle(new TaskConcludeCommand(Guid.Parse(id)));
             return Ok();

@@ -1,18 +1,7 @@
-﻿using Api.Controllers.Dto;
-using Api.Dtos;
-using Domain.Commands.TaskConclude;
-using Domain.Commands.TaskCreate;
-using Domain.Commands.TaskDelete;
-using Domain.Commands.TaskQuery;
-using Domain.Commands.UserRegister;
+﻿using Domain.Commands.NotificationQuery;
 using Domain.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
+using Domain.Commands.TaskConclude;
 
 namespace Api.Controllers
 {
@@ -22,11 +11,11 @@ namespace Api.Controllers
     public class NotificationsController : ControllerBase
     {
         private readonly ICommandHandler<NotificationReadCommand> _notificationReadHandler;
-        private readonly IQueryHandler<TaskQuery, TaskQueryResponse> _queryHandler;
+        private readonly IQueryHandler<NotificationQuery, NotificationQueryResponse> _queryHandler;
 
         public NotificationsController(
             ICommandHandler<NotificationReadCommand> notificationReadHandler,
-            IQueryHandler<TaskQuery, TaskQueryResponse> queryHandler)
+            IQueryHandler<NotificationQuery, NotificationQueryResponse> queryHandler)
         {
             _notificationReadHandler = notificationReadHandler;
             _queryHandler = queryHandler;
@@ -35,7 +24,7 @@ namespace Api.Controllers
         [HttpGet("{userId}")]
         public IActionResult GetByUserId(string userId)
         {
-            var records = _queryHandler.Handle(new TaskQuery(Guid.Parse(userId)));
+            var records = _queryHandler.Handle(new NotificationQuery(Guid.Parse(userId)));
             return new OkObjectResult(records);
         }
 

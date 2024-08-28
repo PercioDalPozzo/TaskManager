@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.UserRegister
 {
-    public class UserRegisterCommandHandler : ICommandHandler<UserRegisterCommand>
+    public class UserRegisterCommandHandler : ICommandResultHandler<UserRegisterCommand,Guid>
     {
         private readonly IUserRepository _userRepository;
         private readonly IAuthenticationService _authenticationService;
@@ -20,11 +20,15 @@ namespace Domain.Commands.UserRegister
             _authenticationService = authenticationService;
         }
 
-        public void Handle(UserRegisterCommand command)
+        public Guid Handle(UserRegisterCommand command)
         {
             var encryptedPassword = _authenticationService.Encrypt(command.Password);
 
-            _userRepository.Add(new User(command.Login, encryptedPassword));
+            var user = new User(command.Login, encryptedPassword);
+
+            _userRepository.Add(user);
+
+            return user.Id;
         }
     }
 }

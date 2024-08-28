@@ -7,7 +7,11 @@ using Domain.Commands.TaskQuery;
 using Domain.Commands.UserRegister;
 using Domain.Interfaces;
 using Domain.Services;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Repository;
+using Repository.Context;
+using System;
 
 internal class Program
 {
@@ -32,9 +36,8 @@ internal class Program
         builder.Services.AddScoped<ITaskRepository, TaskRepository>();
         builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-        builder.Services.AddScoped<INotificationService, NotificationService>();
-
-        builder.Services.AddScoped<ICommandHandler<UserRegisterCommand>, UserRegisterCommandHandler>();
+        
+        builder.Services.AddScoped<ICommandResultHandler<UserRegisterCommand,Guid>, UserRegisterCommandHandler>();
         builder.Services.AddScoped<ICommandResultHandler<TaskCreateCommand, Guid>, TaskCreateCommandHandler>();
         builder.Services.AddScoped<ICommandHandler<TaskDeleteCommand>, TaskDeleteCommandHandler>();
         builder.Services.AddScoped<ICommandHandler<TaskConcludeCommand>, TaskConcludeCommandHandler>();
@@ -44,6 +47,9 @@ internal class Program
         builder.Services.AddScoped<ICommandHandler<NotificationReadCommand>, NotificationReadCommandHandler>();
         builder.Services.AddScoped<IQueryHandler<NotificationQuery, NotificationQueryResponse>, NotificationQueryHandler>();
 
+
+        builder.Services.AddDbContext<ApplicationContext>(options =>
+            options.UseInMemoryDatabase("InMemoryDb"));
 
 
         //builder.Services.AddControllers()

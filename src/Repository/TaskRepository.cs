@@ -1,5 +1,6 @@
 ﻿using Domain.Entity;
 using Domain.Interfaces;
+using Repository.Context;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,39 +11,37 @@ namespace Repository
 {
     public class TaskRepository : ITaskRepository
     {
+        private readonly ApplicationContext _context;
 
-        IEnumerable<Domain.Entity.Task> ITaskRepository.GetAll()
+        public TaskRepository(ApplicationContext context)
         {
-            //Mock
-            return new List<Domain.Entity.Task>()
-            {
-                new Domain.Entity.Task(Guid.NewGuid(), "", "", DateTime.Now),
-                new Domain.Entity.Task(Guid.NewGuid(), "", "", DateTime.Now),
-                new Domain.Entity.Task(Guid.NewGuid(), "", "", DateTime.Now),
-                new Domain.Entity.Task(Guid.NewGuid(), "", "", DateTime.Now)
-            };
+            _context = context;
+        }
+
+        IEnumerable<Domain.Entity.Task> ITaskRepository.GetAllByUserId(Guid userId)
+        {
+            return _context.Task.Where(p=>p.UserId == userId).ToList();
         }
 
         public void Add(Domain.Entity.Task task)
         {
-            
+            _context.Task.Add(task);
+            _context.SaveChanges();
         }
 
         public void Delete(Guid id)
         {
-            
+            _context.Task.Remove(GetById(id));
+            _context.SaveChanges();
         }
 
 
-        public Domain.Entity.Task GetById(Guid id)
-        {
-            //Mock
-            return new Domain.Entity.Task(Guid.NewGuid(), "", "", DateTime.Now);
-        }
+        public Domain.Entity.Task GetById(Guid id) => _context.Task.FirstOrDefault(p => p.Id == id);
 
         public void Update(Domain.Entity.Task task)
         {
-            
+            _context.Task.Update(task);
+            _context.SaveChanges();
         }
     }
 }

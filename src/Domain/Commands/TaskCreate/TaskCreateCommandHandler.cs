@@ -13,21 +13,22 @@ namespace Domain.Commands.TaskCreate
     public class TaskCreateCommandHandler : ICommandResultHandler<TaskCreateCommand, Guid>
     {
         private readonly ITaskRepository _taskRepository;
-        private readonly INotificationService _notificationService;
+        private readonly INotificationRepository _notificationRepository;        
 
-        public TaskCreateCommandHandler(ITaskRepository taskRepository, INotificationService notificationService)
+        public TaskCreateCommandHandler(ITaskRepository taskRepository, INotificationRepository notificationRepository)
         {
             _taskRepository = taskRepository;
-            _notificationService = notificationService;
+            _notificationRepository = notificationRepository;            
         }
 
         public Guid Handle(TaskCreateCommand command)
         {
-            var task = new Entity.Task(command.UserId,command.Title, command.Description,command.LimitToComplete);
-            
+            var task = new Entity.Task(command.UserId,command.Title, command.Description,command.LimitToComplete);            
             _taskRepository.Add(task);
+            
 
-            _notificationService.AddNotificationByTask(task);
+            var record = new Notification(task.UserId, task.Id, "Nova tarefa criada");
+            _notificationRepository.Add(record);
 
             return task.Id;
         }

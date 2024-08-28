@@ -20,8 +20,10 @@ namespace Domain.Services
         public bool Valid(string login, string password)
         {
             var user = _userRepository.GetByLogin(login);
+            if (user == null)
+                return false;
 
-            var passwordCript = Encrypt(user.Password);
+            var passwordCript = Encrypt(password);
 
             return user.Password == passwordCript;
         }

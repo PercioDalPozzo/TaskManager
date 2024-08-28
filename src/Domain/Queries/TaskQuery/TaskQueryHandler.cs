@@ -23,9 +23,9 @@ namespace Domain.Commands.TaskQuery
       
         public TaskQueryResponse Handle(TaskQuery query)
         {
-            var records = _taskRepository.GetAll();
+            var tasks = _taskRepository.GetAllByUserId(query.Id);
 
-            return new TaskQueryResponse(records);            
+            return new TaskQueryResponse(tasks);            
         }
     }
 }

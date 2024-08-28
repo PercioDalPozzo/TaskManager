@@ -1,5 +1,6 @@
 ﻿using Api.Dtos;
 using Domain.Commands.UserRegister;
+using Domain.Entity;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -14,10 +15,10 @@ namespace Api.Controllers
     [Route("/api/[controller]/")]
     public class UsersController : ControllerBase
     {
-        private readonly ICommandHandler<UserRegisterCommand> _handler;
+        private readonly ICommandResultHandler<UserRegisterCommand, Guid> _handler;
         private readonly IAuthenticationService _authService;
 
-        public UsersController(ICommandHandler<UserRegisterCommand> handler, IAuthenticationService authService)
+        public UsersController(ICommandResultHandler<UserRegisterCommand, Guid> handler, IAuthenticationService authService)
         {
             _handler = handler;
             _authService = authService;
@@ -27,8 +28,8 @@ namespace Api.Controllers
         [HttpPost("register")]
         public IActionResult Register(UserRegisterCommand command)
         {
-            _handler.Handle(command);
-            return Ok();
+            var response = _handler.Handle(command);
+            return Ok(new { UserId = response});
         }
 
         [HttpPost("login")]

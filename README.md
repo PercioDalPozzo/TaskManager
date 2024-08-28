@@ -6,6 +6,7 @@ Conta com cadastro e login de usuários assim como, notificações que auxiliam 
 
 # Tecnologias utilizadas
 Visual Studio 2022 com ASP.NET Core (Sdk .NET 6.0)<br>
+xUnit para testes unitários<br>
 Entity Framework Core<br>
 Banco de dados InMemory<br>
 Arquitetura CQRS<br>

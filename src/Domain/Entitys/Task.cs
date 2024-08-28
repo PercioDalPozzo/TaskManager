@@ -22,7 +22,7 @@ namespace Domain.Entity
 
         public string Description { get; private set; }
 
-        public DateTime Created { get; set; } = DateTime.Now;
+        public DateTime Created { get; private set; } = DateTime.Now;
 
         public DateTime LimitToComplete { get; private set; }
 

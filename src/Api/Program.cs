@@ -6,12 +6,13 @@ using Domain.Commands.TaskDelete;
 using Domain.Commands.TaskQuery;
 using Domain.Commands.UserRegister;
 using Domain.Interfaces;
+using Domain.Job;
 using Domain.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
+using Quartz;
 using Repository;
 using Repository.Context;
-using System;
+using Microsoft.Extensions.DependencyInjection;
 
 internal class Program
 {
@@ -32,24 +33,25 @@ internal class Program
         });
 
 
+        //Repository
         builder.Services.AddScoped<IUserRepository, UserRepository>();
         builder.Services.AddScoped<ITaskRepository, TaskRepository>();
         builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
-        
+
+        //Handlers and queries
         builder.Services.AddScoped<ICommandResultHandler<UserRegisterCommand,Guid>, UserRegisterCommandHandler>();
         builder.Services.AddScoped<ICommandResultHandler<TaskCreateCommand, Guid>, TaskCreateCommandHandler>();
         builder.Services.AddScoped<ICommandHandler<TaskDeleteCommand>, TaskDeleteCommandHandler>();
         builder.Services.AddScoped<ICommandHandler<TaskConcludeCommand>, TaskConcludeCommandHandler>();
         builder.Services.AddScoped<IQueryHandler<TaskQuery, TaskQueryResponse>, TaskQueryHandler>();
 
-
         builder.Services.AddScoped<ICommandHandler<NotificationReadCommand>, NotificationReadCommandHandler>();
         builder.Services.AddScoped<IQueryHandler<NotificationQuery, NotificationQueryResponse>, NotificationQueryHandler>();
 
 
-        builder.Services.AddDbContext<ApplicationContext>(options =>
-            options.UseInMemoryDatabase("InMemoryDb"));
+        // InMemory DB
+        builder.Services.AddDbContext<ApplicationContext>(options => options.UseInMemoryDatabase("InMemoryDb"));
 
 
         //builder.Services.AddControllers()
@@ -59,6 +61,25 @@ internal class Program
         //   });
 
         //builder.Services.AddHttpClient();
+
+
+        // Quartz
+        builder.Services.AddQuartz(q =>
+        {
+            var jobKey = new JobKey("NotificationJob");
+            q.AddJob<NotificationJob>(opts => opts.WithIdentity(jobKey));
+
+            q.AddTrigger(opts => opts
+                .ForJob(jobKey) // Adiciona o trigger ao job
+                .WithIdentity("NotificationJob-trigger") // Identifica o trigger
+                .WithSimpleSchedule(x => x
+                    .WithIntervalInMinutes(60) // Executa a cada 60 minutos
+                    .RepeatForever())); // Repetir para sempre
+        });
+
+        // Adiciona o Quartz.NET como um serviço  hospedado
+        builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
+
 
         builder.Services.AddControllers();
         

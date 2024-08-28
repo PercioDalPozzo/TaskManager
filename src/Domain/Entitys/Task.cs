@@ -13,18 +13,18 @@ namespace Domain.Entity
             UserId = userId;        
             Title = title;
             Description = description;
-            LimitToComplete = limitToComplete;
+            LimitToComplete = limitToComplete.Date;
         }
 
         public Guid UserId { get; private set; }
 
-        public string Title { get; set; }
+        public string Title { get; private set; }
 
-        public string Description { get; set; }
+        public string Description { get; private set; }
 
         public DateTime Created { get; set; } = DateTime.Now;
 
-        public DateTime LimitToComplete { get; set; }
+        public DateTime LimitToComplete { get; private set; }
 
         public bool Concluded { get; private set; } = false;
 

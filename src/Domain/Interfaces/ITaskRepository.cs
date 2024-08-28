@@ -9,6 +9,7 @@ namespace Domain.Interfaces
     public interface ITaskRepository
     {
         IEnumerable<Entity.Task> GetAllByUserId(Guid userId);
+        IEnumerable<Entity.Task> GetOpen(DateTime limitToComplete);
         void Add(Entity.Task task);
         void Delete(Guid id);
         Entity.Task GetById(Guid id);

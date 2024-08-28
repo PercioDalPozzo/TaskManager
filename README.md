@@ -10,7 +10,9 @@ Entity Framework Core<br>
 Banco de dados InMemory<br>
 Arquitetura CQRS<br>
 API RESTful com autenticação JWT.<br>
-Swagger
+Swagger para documentação
+Quartz para implementação de job
+
 
 # Funcionalidades
 - Registro de novo usuário

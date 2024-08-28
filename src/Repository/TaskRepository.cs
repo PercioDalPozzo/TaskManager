@@ -18,9 +18,15 @@ namespace Repository
             _context = context;
         }
 
+
+        public IEnumerable<Domain.Entity.Task> GetOpen(DateTime limitToComplete)
+        {
+            return _context.Task.Where(p => !p.Concluded && p.LimitToComplete <= limitToComplete).ToList();
+        }
+
         IEnumerable<Domain.Entity.Task> ITaskRepository.GetAllByUserId(Guid userId)
         {
-            return _context.Task.Where(p=>p.UserId == userId).ToList();
+            return _context.Task.Where(p => p.UserId == userId).ToList();
         }
 
         public void Add(Domain.Entity.Task task)

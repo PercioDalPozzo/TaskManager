@@ -28,6 +28,10 @@ Quartz para implementação de job
 - Criação automática de notificações informando que determinada tarefa está pendente
 - Definição da notificação como lida
 
+# Job para notificação de tarefas com prazo 
+É gerado uma notificação para o usuário caso tenha alguma tarefa em aberto, e com sua data de conclusão nas próximas 24 horas.
+O sistema faz essa verificação em um intervalo configurável. Por default temos 60 minutos mas pode ser configurado no appSettings em "IntervalMinutesToNotificationJob".
+
 
 # Melhorias futuras no projeto
 * Utilização do Mediator 

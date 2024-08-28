@@ -64,6 +64,8 @@ internal class Program
 
 
         // Quartz
+        var minutes = builder.Configuration.GetValue<int>("IntervalMinutesToNotificationJob");
+
         builder.Services.AddQuartz(q =>
         {
             var jobKey = new JobKey("NotificationJob");
@@ -73,7 +75,7 @@ internal class Program
                 .ForJob(jobKey) // Adiciona o trigger ao job
                 .WithIdentity("NotificationJob-trigger") // Identifica o trigger
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInMinutes(60) // Executa a cada 60 minutos
+                    .WithIntervalInMinutes(minutes) // Executa a cada 60 minutos
                     .RepeatForever())); // Repetir para sempre
         });
 

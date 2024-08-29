@@ -5,6 +5,7 @@ using Domain.Job;
 using Domain.Tests.Fakers;
 using Microsoft.Extensions.Logging;
 using Moq;
+using Quartz;
 using System.ComponentModel;
 
 namespace Domain.Tests.Entities
@@ -31,9 +32,10 @@ namespace Domain.Tests.Entities
             var notificationRepositoryMock = new Mock<INotificationRepository>();
 
             var job = new NotificationJob(loggerMock.Object, taskRepositoryMock.Object, notificationRepositoryMock.Object);
+            var jobExecutionContextMock = new Mock<IJobExecutionContext>();
 
             //Action
-            await job.Execute(null);
+            await job.Execute(jobExecutionContextMock.Object);
 
             //Assert
             notificationRepositoryMock.Verify(p => p.Add(It.IsAny<Notification>()), Times.Exactly(tasksFake.Count));

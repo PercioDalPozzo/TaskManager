@@ -1,11 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
 using Repository.Context;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -20,12 +15,12 @@ namespace Repository
 
         public Notification GetById(Guid id)
         {
-            return _context.Notification.FirstOrDefault(p=>p.Id == id);
+            return _context.Notification.FirstOrDefault(p => p.Id == id);
         }
 
         public IEnumerable<Notification> GetNotReadByUserId(Guid userId)
         {
-            return _context.Notification.Where(p => !p.Read).ToList();
+            return _context.Notification.Where(p => !p.Read && p.UserId == userId).ToList();
         }
 
         public void Add(Notification notification)

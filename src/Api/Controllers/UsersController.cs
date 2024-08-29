@@ -1,6 +1,6 @@
 ﻿using Api.Dtos;
 using Domain.Commands.UserRegister;
-using Domain.Entity;
+using Domain.Entities;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

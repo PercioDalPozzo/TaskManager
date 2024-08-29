@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domain.Commands.TaskConclude
+namespace Domain.Entities
 {
-    public record TaskConcludeCommand(Guid Id)
+    public abstract class Entity
     {
-
+        public Guid Id { get; private set; } = Guid.NewGuid();        
     }
 }

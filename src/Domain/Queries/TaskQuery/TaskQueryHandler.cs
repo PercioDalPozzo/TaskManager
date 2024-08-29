@@ -1,13 +1,4 @@
-﻿using Domain.Commands.Taskconclude;
-using Domain.Commands.TaskConclude;
-using Domain.Entity;
-using Domain.Interfaces;
-using Domain.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Interfaces;
 
 namespace Domain.Commands.TaskQuery
 {
@@ -20,12 +11,12 @@ namespace Domain.Commands.TaskQuery
             _taskRepository = taskRepository;
         }
 
-      
+
         public TaskQueryResponse Handle(TaskQuery query)
         {
             var tasks = _taskRepository.GetAllByUserId(query.Id);
 
-            return new TaskQueryResponse(tasks);            
+            return new TaskQueryResponse(tasks);
         }
     }
 }

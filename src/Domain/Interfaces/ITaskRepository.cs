@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Interfaces
+﻿namespace Domain.Interfaces
 {
     public interface ITaskRepository
     {
-        IEnumerable<Entity.Task> GetAllByUserId(Guid userId);
-        IEnumerable<Entity.Task> GetOpen(DateTime limitToComplete);
-        void Add(Entity.Task task);
-        void Delete(Guid id);
-        Entity.Task GetById(Guid id);
-        void Update(Entity.Task task);
+        IEnumerable<Entities.Task> GetAllByUserId(Guid userId);
+        IEnumerable<Entities.Task> GetOpen(DateTime limitToComplete);
+        void Add(Entities.Task task);
+        void Delete(Entities.Task task);
+        Entities.Task GetById(Guid id);
+        void Update(Entities.Task task);
     }
 }

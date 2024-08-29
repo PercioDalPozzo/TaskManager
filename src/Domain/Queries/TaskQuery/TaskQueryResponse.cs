@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Commands.TaskQuery
 {
-    public record TaskQueryResponse(IEnumerable<Entity.Task> records)
+    public record TaskQueryResponse(IEnumerable<Entities.Task> Records)
     {    
     }
 }

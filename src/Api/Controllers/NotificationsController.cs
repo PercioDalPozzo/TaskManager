@@ -1,7 +1,7 @@
 ﻿using Domain.Commands.NotificationQuery;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using Domain.Commands.TaskConclude;
+using Domain.Commands.NotificationRead;
 
 namespace Api.Controllers
 {

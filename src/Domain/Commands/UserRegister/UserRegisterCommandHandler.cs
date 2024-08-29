@@ -1,4 +1,4 @@
-﻿using Domain.Entity;
+﻿using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Services;
 using System;

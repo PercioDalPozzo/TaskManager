@@ -7,13 +7,13 @@ Conta com cadastro e login de usuários assim como, notificações que auxiliam 
 # Tecnologias utilizadas
 Visual Studio 2022 com ASP.NET Core (Sdk .NET 6.0)<br>
 xUnit para testes unitários<br>
+Bogus para auxilio nos testes unitários<br>
 Entity Framework Core<br>
 Banco de dados InMemory<br>
 Arquitetura CQRS<br>
 API RESTful com autenticação JWT.<br>
-Swagger para documentação
 Quartz para implementação de job
-
+Swagger para documentação<br>
 
 # Funcionalidades
 - Registro de novo usuário
@@ -36,5 +36,6 @@ O sistema faz essa verificação em um intervalo configurável. Por default temo
 # Melhorias futuras no projeto
 * Utilização do Mediator 
 * Criação do Ioc para tratar da injeções
-* Melhorar os métodos GetAll para retornar apenas o necessário sem expor a classe de domínio
-* Melhorar as validações em todos os handlers pois foram construidos de forma otimista 
+* Melhorar os métodos GetAll para retornar no controller apenas o necessário sem expor a classe de domínio
+* Algumas validações podem ser adicionadas em todos os handlers pois foram construidos de forma otimista
+* Otimizar a estrutura dos repositórios para não precisar injeção em cada classe de repositório

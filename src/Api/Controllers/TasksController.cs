@@ -1,18 +1,10 @@
 ﻿using Api.Controllers.Dto;
-using Api.Dtos;
 using Domain.Commands.TaskConclude;
 using Domain.Commands.TaskCreate;
 using Domain.Commands.TaskDelete;
 using Domain.Commands.TaskQuery;
-using Domain.Commands.UserRegister;
 using Domain.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using System.IdentityModel.Tokens.Jwt;
-using System.Security.Claims;
-using System.Text;
 
 namespace Api.Controllers
 {
@@ -33,7 +25,7 @@ namespace Api.Controllers
             IQueryHandler<TaskQuery, TaskQueryResponse> queryHandler)
         {
             _createHandler = createHandler;
-            _deleteHandler= deleteHandler;
+            _deleteHandler = deleteHandler;
             _concludeHandler = concludeHandler;
             _queryHandler = queryHandler;
         }
@@ -65,5 +57,5 @@ namespace Api.Controllers
             _concludeHandler.Handle(new TaskConcludeCommand(Guid.Parse(id)));
             return Ok();
         }
-    }   
+    }
 }

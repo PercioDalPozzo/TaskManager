@@ -1,12 +1,4 @@
-﻿using Domain.Commands.TaskDelete;
-using Domain.Entity;
-using Domain.Interfaces;
-using Domain.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Interfaces;
 
 namespace Domain.Commands.TaskDelete
 {
@@ -21,7 +13,9 @@ namespace Domain.Commands.TaskDelete
 
         public void Handle(TaskDeleteCommand command)
         {
-            _taskRepository.Delete(command.Id);            
+            var task = _taskRepository.GetById(command.Id);
+            if (task != null)
+                _taskRepository.Delete(task);
         }
     }
 }

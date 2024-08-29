@@ -1,6 +1,6 @@
-using Domain.Entity;
+using Domain.Entities;
 using System.ComponentModel;
-using Task = Domain.Entity.Task;
+using Task = Domain.Entities.Task;
 
 namespace Domain.Tests.Entities
 {

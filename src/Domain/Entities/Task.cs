@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Domain.Entity
+﻿namespace Domain.Entities
 {
     public class Task : Entity
     {
         public Task(Guid userId, string title, string description, DateTime limitToComplete)
         {
-            UserId = userId;        
+            UserId = userId;
             Title = title;
             Description = description;
-            LimitToComplete = limitToComplete.Date;
+            LimitToComplete = limitToComplete;
         }
 
         public Guid UserId { get; private set; }

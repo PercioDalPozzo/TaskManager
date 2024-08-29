@@ -1,15 +1,6 @@
-﻿using Domain.Commands.Taskconclude;
-using Domain.Commands.TaskConclude;
-using Domain.Entity;
-using Domain.Interfaces;
-using Domain.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Domain.Interfaces;
 
-namespace Domain.Commands.Taskconclude
+namespace Domain.Commands.NotificationRead
 {
     public class NotificationReadCommandHandler : ICommandHandler<NotificationReadCommand>
     {
@@ -26,7 +17,7 @@ namespace Domain.Commands.Taskconclude
 
             notification.ToRead();
 
-            _notificationRepository.Update(notification);            
+            _notificationRepository.Update(notification);
         }
     }
 }

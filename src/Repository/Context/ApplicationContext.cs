@@ -1,4 +1,4 @@
-﻿using Domain.Entity;
+﻿using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -11,7 +11,7 @@ namespace Repository.Context
     public class ApplicationContext : DbContext
     {
         public DbSet<User> User { get; set; }
-        public DbSet<Domain.Entity.Task> Task { get; set; }
+        public DbSet<Domain.Entities.Task> Task { get; set; }
         public DbSet<Notification> Notification { get; set; }
 
         public ApplicationContext(DbContextOptions<ApplicationContext> options)

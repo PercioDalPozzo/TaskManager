@@ -1,5 +1,5 @@
 using Domain.Commands.NotificationQuery;
-using Domain.Commands.Taskconclude;
+using Domain.Commands.NotificationRead;
 using Domain.Commands.TaskConclude;
 using Domain.Commands.TaskCreate;
 using Domain.Commands.TaskDelete;
@@ -12,7 +12,6 @@ using Microsoft.EntityFrameworkCore;
 using Quartz;
 using Repository;
 using Repository.Context;
-using Microsoft.Extensions.DependencyInjection;
 
 internal class Program
 {
@@ -40,7 +39,7 @@ internal class Program
         builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
         //Handlers and queries
-        builder.Services.AddScoped<ICommandResultHandler<UserRegisterCommand,Guid>, UserRegisterCommandHandler>();
+        builder.Services.AddScoped<ICommandResultHandler<UserRegisterCommand, Guid>, UserRegisterCommandHandler>();
         builder.Services.AddScoped<ICommandResultHandler<TaskCreateCommand, Guid>, TaskCreateCommandHandler>();
         builder.Services.AddScoped<ICommandHandler<TaskDeleteCommand>, TaskDeleteCommandHandler>();
         builder.Services.AddScoped<ICommandHandler<TaskConcludeCommand>, TaskConcludeCommandHandler>();
@@ -84,7 +83,7 @@ internal class Program
 
 
         builder.Services.AddControllers();
-        
+
         builder.Services.AddControllersWithViews();
 
         var app = builder.Build();

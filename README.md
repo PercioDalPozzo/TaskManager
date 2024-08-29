@@ -35,7 +35,7 @@ O sistema faz essa verificação em um intervalo configurável. Por default temo
 
 # Melhorias futuras no projeto
 * Utilização do Mediator 
-* Criação do Ioc para tratar da injeções
+* Criação do Ioc para tratar da injeções e limpar o Program.cs
 * Melhorar os métodos GetAll para retornar no controller apenas o necessário sem expor a classe de domínio
 * Algumas validações podem ser adicionadas em todos os handlers pois foram construidos de forma otimista
 * Otimizar a estrutura dos repositórios para não precisar injeção em cada classe de repositório

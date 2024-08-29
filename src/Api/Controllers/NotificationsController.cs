@@ -1,13 +1,14 @@
 ﻿using Domain.Commands.NotificationQuery;
-using Domain.Interfaces;
-using Microsoft.AspNetCore.Mvc;
 using Domain.Commands.NotificationRead;
+using Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/")]
-    //[Authorize]
+    [Authorize]
     public class NotificationsController : ControllerBase
     {
         private readonly ICommandHandler<NotificationReadCommand> _notificationReadHandler;
@@ -28,12 +29,12 @@ namespace Api.Controllers
             return new OkObjectResult(records);
         }
 
-   
+
         [HttpPut("{id}/read")]
         public IActionResult Read(string id)
         {
             _notificationReadHandler.Handle(new NotificationReadCommand(Guid.Parse(id)));
             return Ok();
         }
-    }   
+    }
 }

@@ -8,10 +8,14 @@ using Domain.Commands.UserRegister;
 using Domain.Interfaces;
 using Domain.Job;
 using Domain.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Quartz;
 using Repository;
 using Repository.Context;
+using System.Text;
 
 internal class Program
 {
@@ -28,6 +32,33 @@ internal class Program
                 Title = "Informações da API",
                 Version = "v1",
                 Description = "Task Manager",
+            });
+
+            // Definição do esquema de segurança para JWT
+            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+            {
+                Name = "Authorization",
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                In = ParameterLocation.Header,
+                Description = "Insira o token JWT aqui SEM o 'Bearer' {seu token}"
+            });
+
+            // Adiciona o requisito de segurança ao Swagger
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                {
+                    new OpenApiSecurityScheme
+                    {
+                        Reference = new OpenApiReference
+                        {
+                            Type = ReferenceType.SecurityScheme,
+                            Id = "Bearer"
+                        }
+                    },
+                    Array.Empty<string>()
+                }
             });
         });
 
@@ -53,18 +84,8 @@ internal class Program
         builder.Services.AddDbContext<ApplicationContext>(options => options.UseInMemoryDatabase("InMemoryDb"));
 
 
-        //builder.Services.AddControllers()
-        //   .AddJsonOptions(options =>
-        //   {
-        //       options.JsonSerializerOptions.PropertyNamingPolicy = null;
-        //   });
-
-        //builder.Services.AddHttpClient();
-
-
         // Quartz
         var minutes = builder.Configuration.GetValue<int>("IntervalMinutesToNotificationJob");
-
         builder.Services.AddQuartz(q =>
         {
             var jobKey = new JobKey("NotificationJob");
@@ -82,6 +103,31 @@ internal class Program
         builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
 
+
+        // Configuração JWT
+        var key = Encoding.ASCII.GetBytes("TaskManagerKey0123456789012345678901234567890123456789");
+
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new SymmetricSecurityKey(key),
+                ValidateIssuer = false,
+                ValidateAudience = false,
+                RequireExpirationTime = true,
+                ValidateLifetime = true,
+            };
+        });
+
+
+
+
         builder.Services.AddControllers();
 
         builder.Services.AddControllersWithViews();
@@ -91,6 +137,10 @@ internal class Program
         app.MapControllers();
 
         app.UseHttpsRedirection();
+
+        app.UseAuthentication();
+
+        app.UseAuthorization();
 
         if (app.Environment.IsDevelopment())
         {

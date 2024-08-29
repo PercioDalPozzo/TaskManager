@@ -4,13 +4,14 @@ using Domain.Commands.TaskCreate;
 using Domain.Commands.TaskDelete;
 using Domain.Commands.TaskQuery;
 using Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers
 {
     [ApiController]
     [Route("/api/[controller]/")]
-    //[Authorize]
+    [Authorize]
     public class TasksController : ControllerBase
     {
         private readonly ICommandResultHandler<TaskCreateCommand, Guid> _createHandler;

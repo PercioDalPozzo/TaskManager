@@ -39,3 +39,4 @@ O sistema faz essa verificação em um intervalo configurável. Por default temo
 * Melhorar os métodos GetAll para retornar no controller apenas o necessário sem expor a classe de domínio
 * Algumas validações podem ser adicionadas em todos os handlers pois foram construidos de forma otimista
 * Otimizar a estrutura dos repositórios para não precisar injeção em cada classe de repositório
+* Migrar a SecurityKey para um local mais adequado por se tratar de uma informação sensível

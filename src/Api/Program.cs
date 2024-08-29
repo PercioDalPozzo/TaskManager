@@ -1,3 +1,4 @@
+using Api;
 using Domain.Commands.NotificationQuery;
 using Domain.Commands.NotificationRead;
 using Domain.Commands.TaskConclude;
@@ -83,7 +84,6 @@ internal class Program
         // InMemory DB
         builder.Services.AddDbContext<ApplicationContext>(options => options.UseInMemoryDatabase("InMemoryDb"));
 
-
         // Quartz
         var minutes = builder.Configuration.GetValue<int>("IntervalMinutesToNotificationJob");
         builder.Services.AddQuartz(q =>
@@ -92,20 +92,18 @@ internal class Program
             q.AddJob<NotificationJob>(opts => opts.WithIdentity(jobKey));
 
             q.AddTrigger(opts => opts
-                .ForJob(jobKey) // Adiciona o trigger ao job
-                .WithIdentity("NotificationJob-trigger") // Identifica o trigger
+                .ForJob(jobKey)
+                .WithIdentity("NotificationJob-trigger")
                 .WithSimpleSchedule(x => x
-                    .WithIntervalInMinutes(minutes) // Executa a cada 60 minutos
-                    .RepeatForever())); // Repetir para sempre
+                    .WithIntervalInMinutes(minutes)
+                    .RepeatForever()));
         });
-
-        // Adiciona o Quartz.NET como um serviço  hospedado
         builder.Services.AddQuartzHostedService(q => q.WaitForJobsToComplete = true);
 
 
 
         // Configuração JWT
-        var key = Encoding.ASCII.GetBytes("TaskManagerKey0123456789012345678901234567890123456789");
+        var key = Encoding.ASCII.GetBytes(JwtUtil.SecurityKey);
 
         builder.Services.AddAuthentication(options =>
         {
@@ -124,7 +122,6 @@ internal class Program
                 ValidateLifetime = true,
             };
         });
-
 
 
 

@@ -1,8 +1,6 @@
 ﻿using Api.Dtos;
 using Domain.Commands.UserRegister;
-using Domain.Entities;
 using Domain.Interfaces;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -29,13 +27,13 @@ namespace Api.Controllers
         public IActionResult Register(UserRegisterCommand command)
         {
             var response = _handler.Handle(command);
-            return Ok(new { UserId = response});
+            return Ok(new { UserId = response });
         }
 
         [HttpPost("login")]
         public IActionResult Login(UserLoginDto dto)
-        {            
-            if (!_authService.Valid(dto.Username,dto.Password ))
+        {
+            if (!_authService.Valid(dto.Username, dto.Password))
                 return Unauthorized();
 
             var token = GenerateJwtToken(dto.Username);
@@ -45,7 +43,7 @@ namespace Api.Controllers
 
         private string GenerateJwtToken(string username)
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("TaskManagerKey0123456789012345678901234567890123456789"));
+            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(JwtUtil.SecurityKey));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[]
@@ -63,5 +61,5 @@ namespace Api.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-    }   
+    }
 }

@@ -54,6 +54,7 @@ Ao pressionar **F5**, o sistema será compilado e o Swagger será carregado auto
 2. **Autenticar o Usuário**
    - Endpoint: `POST /api/Users/login`
    - Use o "username" e "password" cadastrados para obter o token JWT.
+   - Na parte superior direita clicar em **Authorize**, será aberta a tela onde deve-se colar o token retornado no passo anterior. 
 
 3. **Criar 5 Tarefas para Teste**
    - Sugestão: Utilize os títulos **"Tarefa 1"**, **"Tarefa 2"**, **"Tarefa 3"**, **"Tarefa 4"**, **"Tarefa 5"**.

@@ -6,12 +6,12 @@ namespace Repository.Tests
 {
     public class NotificationRepositoryTest
     {
-        [Fact(DisplayName = "GIVEN this repositoty WHEN GetByLogin THEN must find record")]
+        [Fact(DisplayName = "GIVEN this repositoty WHEN GetById THEN must find record")]
         [Category("Repository")]
         public void Repository_GetById()
         {
             // Arrange
-            var context = ContextFake.Build();
+            var context = new ContextFake().Build();
             var any = context.Notification.FirstOrDefault();
 
             var repository = new NotificationRepository(context);
@@ -30,7 +30,7 @@ namespace Repository.Tests
             // Arrange
             var userId = Guid.NewGuid();
 
-            var context = ContextFake.Build();
+            var context = new ContextFake().Build();
             context.Notification.AddRange(NotificationFaker.Build()
                 .RuleFor(p => p.UserId, userId)
                 .Generate(5));
@@ -50,7 +50,7 @@ namespace Repository.Tests
         public void Repository_Add()
         {
             // Arrange
-            var context = ContextFake.Build();
+            var context = new ContextFake().Build();
             var count = context.Notification.Count();
 
             var repository = new NotificationRepository(context);
@@ -67,7 +67,7 @@ namespace Repository.Tests
         public void Repository_Update()
         {
             // Arrange
-            var context = ContextFake.Build();
+            var context = new ContextFake().Build();
             var any = context.Notification.FirstOrDefault();
             any.ToRead();
 

@@ -13,14 +13,14 @@ namespace Repository
         }
 
 
-        public IEnumerable<Domain.Entities.Task> GetOpen(DateTime limitToComplete)
+        public IEnumerable<Domain.Entities.Task> GetNotConcluded(DateTime limitToComplete)
         {
             return _context.Task
                 .Where(p => !p.Concluded && p.LimitToComplete <= limitToComplete)
                 .ToList();
         }
 
-        IEnumerable<Domain.Entities.Task> ITaskRepository.GetAllByUserId(Guid userId)
+        public IEnumerable<Domain.Entities.Task> GetAllByUserId(Guid userId)
         {
             return _context.Task
                 .Where(p => p.UserId == userId)
@@ -40,7 +40,7 @@ namespace Repository
         }
 
 
-        public Domain.Entities.Task GetById(Guid id) => _context.Task.FirstOrDefault(p => p.Id == id);
+        public Domain.Entities.Task? GetById(Guid id) => _context.Task.FirstOrDefault(p => p.Id == id);
 
         public void Update(Domain.Entities.Task task)
         {

@@ -13,7 +13,7 @@ namespace Repository
             _context = context;
         }
 
-        public Notification GetById(Guid id)
+        public Notification? GetById(Guid id)
         {
             return _context.Notification.FirstOrDefault(p => p.Id == id);
         }

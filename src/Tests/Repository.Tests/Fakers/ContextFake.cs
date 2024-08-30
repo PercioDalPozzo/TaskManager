@@ -4,12 +4,12 @@ using Repository.Context;
 
 namespace Repository.Tests.Fakers
 {
-    public static class ContextFake
+    public class ContextFake
     {
-        public static ApplicationContext Build()
+        public ApplicationContext Build()
         {
             var options = new DbContextOptionsBuilder<ApplicationContext>()
-                     .UseInMemoryDatabase(databaseName: "TestDatabase")
+                     .UseInMemoryDatabase(databaseName: $"TestDatabase{Guid.NewGuid()}")
                      .Options;
 
             var context = new ApplicationContext(options);
@@ -21,6 +21,15 @@ namespace Repository.Tests.Fakers
             context.SaveChanges();
 
             return context;
+        }
+
+        public ApplicationContext EmptyContext()
+        {
+            var options = new DbContextOptionsBuilder<ApplicationContext>()
+                     .UseInMemoryDatabase(databaseName: $"TestDatabase{Guid.NewGuid()}")
+                     .Options;
+
+            return new ApplicationContext(options);
         }
     }
 

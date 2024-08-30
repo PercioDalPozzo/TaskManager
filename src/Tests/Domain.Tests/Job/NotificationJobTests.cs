@@ -27,7 +27,7 @@ namespace Domain.Tests.Entities
 
             var tasksFake = TaskFaker.Build().Generate(2);
             var taskRepositoryMock = new Mock<ITaskRepository>();
-            taskRepositoryMock.Setup(p => p.GetOpen(It.IsAny<DateTime>())).Returns(tasksFake);
+            taskRepositoryMock.Setup(p => p.GetNotConcluded(It.IsAny<DateTime>())).Returns(tasksFake);
 
             var notificationRepositoryMock = new Mock<INotificationRepository>();
 

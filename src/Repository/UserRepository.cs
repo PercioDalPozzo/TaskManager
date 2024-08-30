@@ -13,7 +13,7 @@ namespace Repository
             _context = context;
         }
 
-        public User GetByLogin(string login)
+        public User? GetByLogin(string login)
         {
             return _context.User.FirstOrDefault(p => p.Login == login);
         }

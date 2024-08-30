@@ -11,7 +11,7 @@ namespace Repository.Tests
         public void Repository_GetByLogin()
         {
             // Arrange
-            var context = ContextFake.Build();
+            var context = new ContextFake().Build();
             var any = context.User.FirstOrDefault();
 
             var repository = new UserRepository(context);
@@ -28,7 +28,7 @@ namespace Repository.Tests
         public void Repository_Add()
         {
             // Arrange
-            var context = ContextFake.Build();
+            var context = new ContextFake().Build();
             var count = context.User.Count();
 
             var repository = new UserRepository(context);

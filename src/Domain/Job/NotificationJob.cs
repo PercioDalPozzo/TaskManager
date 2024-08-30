@@ -20,7 +20,7 @@ namespace Domain.Job
         public Task Execute(IJobExecutionContext context)
         {
             var limitToComplete = DateTime.Now.AddDays(1);
-            var tasks = _taskRepository.GetOpen(limitToComplete);
+            var tasks = _taskRepository.GetNotConcluded(limitToComplete);
 
             foreach (var task in tasks)
             {

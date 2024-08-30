@@ -2,11 +2,11 @@
 {
     public interface ITaskRepository
     {
+        Entities.Task? GetById(Guid id);
         IEnumerable<Entities.Task> GetAllByUserId(Guid userId);
-        IEnumerable<Entities.Task> GetOpen(DateTime limitToComplete);
+        IEnumerable<Entities.Task> GetNotConcluded(DateTime limitToComplete);
         void Add(Entities.Task task);
         void Delete(Entities.Task task);
-        Entities.Task GetById(Guid id);
         void Update(Entities.Task task);
     }
 }

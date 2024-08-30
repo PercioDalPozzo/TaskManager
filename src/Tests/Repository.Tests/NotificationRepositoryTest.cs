@@ -26,7 +26,7 @@ namespace Repository.Tests
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN GetNotReadByUserId THEN must return records")]
         [Category("Repository")]
-        public void Repository_GetNotReadByUserId()
+        public async Task Repository_GetNotReadByUserId()
         {
             // Arrange
             var userId = Guid.NewGuid();
@@ -40,7 +40,7 @@ namespace Repository.Tests
             var repository = new NotificationRepository(context);
 
             // Action
-            var response = repository.GetNotReadByUserId(userId);
+            var response = await repository.GetNotReadByUserId(userId);
 
             // Assert
             response.Should().HaveCount(5);

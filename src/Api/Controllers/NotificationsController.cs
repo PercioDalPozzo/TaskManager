@@ -23,10 +23,10 @@ namespace Api.Controllers
         }
 
         [HttpGet("{userId}")]
-        public ActionResult GetByUserId(string userId)
+        public async Task<ActionResult> GetByUserId(string userId)
         {
-            var records = _queryHandler.Handle(new NotificationQuery(Guid.Parse(userId)));
-            return Ok(records);
+            var response = await _queryHandler.Handle(new NotificationQuery(Guid.Parse(userId)));
+            return Ok(response);
         }
 
 

@@ -17,10 +17,10 @@ namespace Domain.Job
             _notificationRepository = notificationRepository;
         }
 
-        public Task Execute(IJobExecutionContext context)
+        public async Task Execute(IJobExecutionContext context)
         {
             var limitToComplete = DateTime.Now.AddDays(1);
-            var tasks = _taskRepository.GetNotConcluded(limitToComplete);
+            var tasks = await _taskRepository.GetNotConcluded(limitToComplete);
 
             foreach (var task in tasks)
             {
@@ -29,9 +29,6 @@ namespace Domain.Job
                 var notification = new Domain.Entities.Notification(task.UserId, task.Id, $"Tarefa pendente [{task.Title}]");
                 _notificationRepository.Add(notification);
             }
-
-
-            return Task.CompletedTask;
         }
     }
 }

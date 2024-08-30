@@ -24,16 +24,16 @@ namespace Api.Tests
 
         [Fact(DisplayName = "GIVEN some request WHEN GetByUserId THEN must return records")]
         [Category("Controller")]
-        public void NotificationsController_GetByUserId()
+        public async void NotificationsController_GetByUserId()
         {
             // Arrange
             queryHandlerMock.Setup(p => p.Handle(It.IsAny<NotificationQuery>()))
-                .Returns(new NotificationQueryResponse(NotificationFaker.Build().Generate(3)));
+                .ReturnsAsync(new NotificationQueryResponse(NotificationFaker.Build().Generate(3)));
 
             var controller = new NotificationsController(notificationReadHandlerMock.Object, queryHandlerMock.Object);
 
             // Action
-            var response = controller.GetByUserId(Guid.NewGuid().ToString());
+            var response = await controller.GetByUserId(Guid.NewGuid().ToString());
 
             // Assert
             var responseStatus = (ObjectResult)response;

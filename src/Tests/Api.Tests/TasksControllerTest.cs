@@ -31,16 +31,16 @@ namespace Api.Tests
 
         [Fact(DisplayName = "GIVEN some request WHEN GetAll THEN must return records")]
         [Category("Controller")]
-        public void TasksController_GetByUserId()
+        public async void TasksController_GetByUserId()
         {
             // Arrange
             queryHandlerMock.Setup(p => p.Handle(It.IsAny<TaskQuery>()))
-                .Returns(new TaskQueryResponse(TaskFaker.Build().Generate(3)));
+                .ReturnsAsync(new TaskQueryResponse(TaskFaker.Build().Generate(3)));
 
             var controller = new TasksController(createHandlerMock.Object, deleteHandlerMock.Object, concludeHandlerMock.Object, queryHandlerMock.Object);
 
             // Action
-            var response = controller.GetAll(Guid.NewGuid().ToString());
+            var response = await controller.GetAll(Guid.NewGuid().ToString());
 
             //Assert
             var responseStatus = (ObjectResult)response;

@@ -32,10 +32,10 @@ namespace Api.Controllers
         }
 
         [HttpGet("{userId}")]
-        public ActionResult GetAll(string userId)
+        public async Task<ActionResult> GetAll(string userId)
         {
-            var records = _queryHandler.Handle(new TaskQuery(Guid.Parse(userId)));
-            return Ok(records);
+            var response = await _queryHandler.Handle(new TaskQuery(Guid.Parse(userId)));
+            return Ok(response);
         }
 
         [HttpPost]

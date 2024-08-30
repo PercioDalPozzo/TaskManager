@@ -11,19 +11,19 @@ namespace Domain.Tests.Entities
     {
         [Fact(DisplayName = "GIVEN some user WHEN get tasks THEN return records")]
         [Category("Query")]
-        public void TaskQueryHandler_Handler()
+        public async Task TaskQueryHandler_Handler()
         {
             //Arrange
             var responseMocked = TaskFaker.Build().Generate(2);
 
             var userId = Guid.NewGuid();
             var taskRepositoryMock = new Mock<ITaskRepository>();
-            taskRepositoryMock.Setup(p => p.GetAllByUserId(userId)).Returns(responseMocked);
+            taskRepositoryMock.Setup(p => p.GetAllByUserId(userId)).ReturnsAsync(responseMocked);
 
             var query = new TaskQueryHandler(taskRepositoryMock.Object);
 
             //Action
-            var response = query.Handle(new TaskQuery(userId));
+            var response = await query.Handle(new TaskQuery(userId));
 
             //Assert
             responseMocked.Count.Should().Be(response.Records.Count());

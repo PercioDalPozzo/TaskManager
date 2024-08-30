@@ -1,5 +1,6 @@
 ﻿using Domain.Entities;
 using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 
 namespace Repository
@@ -18,9 +19,9 @@ namespace Repository
             return _context.Notification.FirstOrDefault(p => p.Id == id);
         }
 
-        public IEnumerable<Notification> GetNotReadByUserId(Guid userId)
+        public async Task<IReadOnlyList<Notification>> GetNotReadByUserId(Guid userId)
         {
-            return _context.Notification.Where(p => !p.Read && p.UserId == userId).ToList();
+            return await _context.Notification.Where(p => !p.Read && p.UserId == userId).ToListAsync();
         }
 
         public void Add(Notification notification)

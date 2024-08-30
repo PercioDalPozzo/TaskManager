@@ -1,4 +1,5 @@
 ﻿using Domain.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Repository.Context;
 
 namespace Repository
@@ -13,18 +14,18 @@ namespace Repository
         }
 
 
-        public IEnumerable<Domain.Entities.Task> GetNotConcluded(DateTime limitToComplete)
+        public async Task<IReadOnlyList<Domain.Entities.Task>> GetNotConcluded(DateTime limitToComplete)
         {
-            return _context.Task
+            return await _context.Task
                 .Where(p => !p.Concluded && p.LimitToComplete <= limitToComplete)
-                .ToList();
+                .ToListAsync();
         }
 
-        public IEnumerable<Domain.Entities.Task> GetAllByUserId(Guid userId)
+        public async Task<IReadOnlyList<Domain.Entities.Task>> GetAllByUserId(Guid userId)
         {
-            return _context.Task
+            return await _context.Task
                 .Where(p => p.UserId == userId)
-                .ToList();
+                .ToListAsync();
         }
 
         public void Add(Domain.Entities.Task task)

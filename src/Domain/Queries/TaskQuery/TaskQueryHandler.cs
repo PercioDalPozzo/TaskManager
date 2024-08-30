@@ -12,9 +12,9 @@ namespace Domain.Commands.TaskQuery
         }
 
 
-        public TaskQueryResponse Handle(TaskQuery query)
+        public async Task<TaskQueryResponse> Handle(TaskQuery query)
         {
-            var tasks = _taskRepository.GetAllByUserId(query.Id);
+            var tasks = await _taskRepository.GetAllByUserId(query.Id);
 
             return new TaskQueryResponse(tasks);
         }

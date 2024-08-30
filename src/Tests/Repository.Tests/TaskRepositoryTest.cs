@@ -27,7 +27,7 @@ namespace Repository.Tests
         [Fact(DisplayName = "GIVEN this repository WHEN GetNotConcluded THEN must return records")]
         [Category("Repository")]
 
-        public void Repository_GetNotReadByUserId()
+        public async Task Repository_GetNotReadByUserId()
         {
             // Arrange
             var userId = Guid.NewGuid();
@@ -45,7 +45,7 @@ namespace Repository.Tests
             var tomorrow = DateTime.Now.AddDays(1);
 
             // Action
-            var response = repository.GetNotConcluded(tomorrow);
+            var response = await repository.GetNotConcluded(tomorrow);
 
             // Assert            
             response.Should().HaveCount(3);
@@ -54,7 +54,7 @@ namespace Repository.Tests
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN GetAllByUserId THEN must return records")]
         [Category("Repository")]
-        public void Repository_GetAllByUserId()
+        public async Task Repository_GetAllByUserId()
         {
             // Arrange
             var userId = Guid.NewGuid();
@@ -66,7 +66,7 @@ namespace Repository.Tests
             var repository = new TaskRepository(context);
 
             // Action
-            var response = repository.GetAllByUserId(userId);
+            var response = await repository.GetAllByUserId(userId);
 
             // Assert
             response.Should().HaveCount(3);

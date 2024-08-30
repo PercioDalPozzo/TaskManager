@@ -1,104 +1,101 @@
-# TaskManager - Sistema para gestão de tarefas
+# TaskManager - Sistema para Gestão de Tarefas
 
-# Sobre o projeto
-TaskManager é uma API responsavel pela gestão de tarefas.
-Conta com cadastro e login de usuários assim como, notificações que auxiliam o usuário na execução das tarefas.
+## Sobre o Projeto
+**TaskManager** é uma API responsável pela gestão de tarefas. Ela inclui funcionalidades de cadastro e login de usuários, além de notificações que auxiliam os usuários na execução de suas tarefas diárias.
 
-# Tecnologias utilizadas
-Visual Studio 2022 com ASP.NET Core (Sdk .NET 6.0)<br>
-xUnit para testes unitários<br>
-Bogus para auxilio nos testes unitários<br>
-Entity Framework Core<br>
-Banco de dados InMemory<br>
-API RESTful com autenticação JWT.<br>
-Quartz para implementação de job
-Swagger para documentação<br>
+## Tecnologias Utilizadas
+- **Visual Studio 2022** com **ASP.NET Core (SDK .NET 6.0)**
+- **xUnit** para testes unitários
+- **Bogus** para geração de dados nos testes unitários
+- **Entity Framework Core** com banco de dados **InMemory**
+- API **RESTful** com autenticação **JWT**
+- **Quartz.NET** para implementação de jobs agendados
+- **Swagger** para testes e documentação da API
 
-# Arquitetura
-Arquitetura CQRS separado nas camadas<br>
--API
--Domain
--Repository
+## Arquitetura
+O projeto segue a arquitetura **CQRS** (Command Query Responsibility Segregation), organizada em três camadas principais:
+- **API**
+- **Domain**
+- **Repository**
 
-# Funcionalidades
-Usuário
-- Registro de novo usuário
-- Login
+## Funcionalidades
 
-Tarefas
-- Criação de nova tarefas
-- Listagem das tarefas do usuário
-- Definição da tarefa como concluída
-- Exclusão de tarefa
+### Usuário
+- Registro de novos usuários
+- Autenticação (Login)
 
-Notificações
-- Criação de notificações quando uma nova tarefa é criada
-- Criação automática de notificações informando que determinada tarefa está pendente
-- Definição da notificação como lida
+### Tarefas
+- Criação de novas tarefas
+- Listagem de tarefas associadas a um usuário
+- Marcação de tarefas como concluídas
+- Exclusão de tarefas
 
-# Job para notificação de tarefas com prazo 
-É gerado uma notificação para o usuário caso tenha alguma tarefa em aberto, e com sua data de conclusão nas próximas 24 horas.
-O sistema faz essa verificação em um intervalo configurável. Por default temos 60 minutos mas pode ser configurado no appSettings em "IntervalMinutesToNotificationJob".
+### Notificações
+- Notificações automáticas ao criar uma nova tarefa
+- Notificações automáticas para tarefas pendentes
+- Marcação de notificações como lidas
 
-# Como rodar
-Clonar este repositório e abri-lo com visual studio. Definir o projeto "Api" como projeto de inicialização.
-Para rodar os testes unitários, ir no menu "Testes > Rodar todos os testes". Esperado que todos os testes sejam executados com sucesso.
+## Job para Notificação de Tarefas com Prazo
+O sistema gera notificação para o usuário caso uma tarefa esteja em aberto e tenha a data de conclusão nas próximas 24 horas. Essa verificação é realizada em um intervalo configurável. Por padrão 60 minutos mas pode ser alterada no `appSettings` pela chave **"IntervalMinutesToNotificationJob"**.
 
-# Como testar
-Ao pressionar F5 o sistema irá compilar e subir no navegador a pagina com swagger carregado.
-Poderá utilizar qualquer outra ferramenta para envio de requisições HTTP como por exemplo, Postman.
+## Como Rodar o Projeto
+1. Clone este repositório e abra-o no Visual Studio.
+2. Defina o projeto **API** como o projeto de inicialização.
+3. Para rodar os testes unitários, acesse o menu **Testes > Rodar todos os testes**. Todos os testes devem ser executados com sucesso.
 
-Para tornar a experiencia mais simples e direta, usaremos aqui o próprio swagger.
+## Como Testar a API
+Ao pressionar **F5**, o sistema será compilado e o Swagger será carregado automaticamente no navegador. Você pode testar as funcionalidades da API diretamente pelo Swagger ou utilizar outra ferramenta, como o **Postman**.
 
-A seguir um guia de como testar todas as funcionalidades.
+### Guia de Teste Rápido no Swagger
 
-* Fazer o registro de um usuário
-post: ​/api​/Users​/register
+1. **Registrar um Usuário**
+   - Endpoint: `POST /api/Users/register`
 
-* Com o usuário criado, fazer a autenticação utilizando "username" e "password"
-post: ​/api​/Users​/login
+2. **Autenticar o Usuário**
+   - Endpoint: `POST /api/Users/login`
+   - Use o "username" e "password" cadastrados para obter o token JWT.
 
+3. **Criar 5 Tarefas para Teste**
+   - Sugestão: Utilize os títulos **"Tarefa 1"**, **"Tarefa 2"**, **"Tarefa 3"**, **"Tarefa 4"**, **"Tarefa 5"**.
+   - Endpoint: `POST /api/Tasks`
 
-* Criar 5 tarefas para termos massa de teste. Para facilitar a compreenção, criar as tarefas com os títulos "Tarefa 1", "Tarefa 2", "Tarefa 3", "Tarefa 4", "Tarefa 5"
-post: ​/api​/Tasks
+4. **Conferir as Tarefas Criadas**
+   - Endpoint: `GET /api/Tasks/{userId}`
 
-* Para conferir a criação, basta consultar  
-get: ​/api​/Tasks​/{userId}
+5. **Deletar a "Tarefa 4"**
+   - Endpoint: `DELETE /api/Tasks/{id}`
 
-* Deletar a "Tarefa 4" passando o Id da tarefa
-delete: ​/api​/Tasks​/{id}
+6. **Marcar Tarefas como Concluídas**
+   - Marque **"Tarefa 2"** e **"Tarefa 3"** como concluídas.
+   - Endpoint: `PUT /api/Tasks/{id}/complete`
 
-* Marcar a tarefa como concluída basta passar o Id. Faremos isso com o Id da "Tarefa 2" e "Tarefa 3"  
-put: ​/api/Tasks/{id}/complete
+7. **Conferir o Status das Tarefas (etapa 4)**
+   - Após as oprações, as tarefas ficação assim:
+     - **"Tarefa 1"** e **"Tarefa 5"**: Pendentes (`Concluded = false`)
+     - **"Tarefa 2"** e **"Tarefa 3"**: Concluídas (`Concluded = true`)
+     - **"Tarefa 4"**: Não será listada, pois foi deletada.
 
-* Executando novamente a consulta de tarefas teremos a seguinte situação
-"Tarefa 1" e "Tarefa 5": Pendentes, status observado pelo campo "Concluded = false"  
-"Tarefa 2" e "Tarefa 3": Concluídas, status observado pelo campo "Concluded = true"  
-"Tarefa 4": Não lista pois foi deletada
+8. **Conferir as Notificações**
+   - Haverá 5 notificações, uma para cada tarefa criada com a mensagem **"Nova tarefa criada"**.
+   - Endpoint: `GET /api/Notifications/{userId}`
 
+9. **Marcar Notificação como Lida**
+   - Endpoint: `PUT /api/Notifications/{id}/read`
 
-* Observaremos agora as notificações. Teremos 5 notificações, uma para cada tarefa criada com a mensagem "Nova tarefa criada"
-get: ​/api​/Notifications​/{userId}
+10. **Conferir Notificações Após Leitura**
+    - Agora haverá 4 notificações, pois uma foi marcada como lida.
+    - Endpoint: `GET /api/Notifications/{userId}`
 
-* Fazer a leitura de uma das notificações passando o Id da notificação
-put: ​/api​/Notifications​/{id}​/read
+11. **Testar a Job de Notificação Automática**
+    - Crie 3 tarefas em datas diferentes **(LimitToComplete)** (sugestão: **D0**, **D1** e **D2**).
+    - Na próxima execução da job, serão criadas notificações para as tarefas **D0** e **D1** informando **"Tarefa pendente + Título da tarefa"**.
+    - Por padrão, essa verificação ocorre a cada 60 minutos. Para testar rapidamente, altere a configuração **"IntervalMinutesToNotificationJob"** para 2 ou 3 minutos.
+    - Isso dará tempo para criar as tarefas e observar a execução.
 
-* Executando novamente a consulta de notificação 
-Agora teremos apenas 4 notificações pois uma delas já foi marcada como lida
-
-
-* Testando a job de noticação automática
-Criar 3 tarefas em datas diferentes, sugestão criar D0, D1 e D2.
-Na próxima rodada da job será criada duas notificações para as tarefas D0 e D1 informando "Tarefa pendente".
-Por default essa verificação é feita a cada 60 minutos, para esse teste ´pode-se alterar a configuração "IntervalMinutesToNotificationJob" para 2 ou 3 minutos.
-Com isso, dará tempo para criar as tarefas e observar a execução.
-
-
-
-# Melhorias futuras no projeto
-* Utilização do Mediator 
-* Criação do Ioc para tratar da injeções e limpar o Program.cs
-* Melhorar os métodos GetAll para retornar no controller apenas o necessário sem expor a classe de domínio
-* Algumas validações podem ser adicionadas em todos os handlers pois foram construidos de forma otimista
-* Otimizar a estrutura dos repositórios para não precisar injeção em cada classe de repositório
-* Migrar a SecurityKey para um local mais adequado por se tratar de uma informação sensível
+## Melhorias Futuras
+- Implementação do **Mediator** para mediar comandos e queries.
+- Criação de um **IoC container** para melhorar a injeção de dependências e limpar o `Program.cs`.
+- Refatoração dos métodos `GetAll` para retornar apenas os dados necessários, evitando a exposição direta das classes de domínio.
+- Adição de validações em todos os handlers, atualmente construídos de forma otimista.
+- Otimização da estrutura dos repositórios para reduzir a necessidade de injeção do contexto em cada classe de repositório.
+- Migração da **SecurityKey** para um local mais seguro, devido à sua natureza sensível.

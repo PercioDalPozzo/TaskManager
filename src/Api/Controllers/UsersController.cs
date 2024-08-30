@@ -1,4 +1,5 @@
-﻿using Api.Dtos;
+﻿using Api.Controllers.Dto;
+using Api.Dtos;
 using Domain.Commands.UserRegister;
 using Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -24,21 +25,22 @@ namespace Api.Controllers
 
 
         [HttpPost("register")]
-        public IActionResult Register(UserRegisterCommand command)
+        public ActionResult Register(UserRegisterCommand command)
         {
             var response = _handler.Handle(command);
             return Ok(new { UserId = response });
         }
 
         [HttpPost("login")]
-        public IActionResult Login(UserLoginDto dto)
+        public ActionResult Login(UserLoginDto dto)
         {
-            if (!_authService.Valid(dto.Username, dto.Password))
+            var authenticationResponse = _authService.Valid(dto.Username, dto.Password);
+            if (!authenticationResponse.Valid)
                 return Unauthorized();
 
             var token = GenerateJwtToken(dto.Username);
 
-            return Ok(new { Token = token });
+            return Ok(new LoginResponse(token, authenticationResponse.UserId));
         }
 
         private string GenerateJwtToken(string username)

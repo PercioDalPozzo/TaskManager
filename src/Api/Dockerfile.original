@@ -10,18 +10,16 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["src/Api/Api.csproj", "src/Api/"]
-COPY ["src/Domain/Domain.csproj", "src/Domain/"]
-COPY ["src/Repository/Repository.csproj", "src/Repository/"]
-RUN dotnet restore "src/Api/Api.csproj"
+COPY ["TaskManager/TaskManager.csproj", "TaskManager/"]
+RUN dotnet restore "TaskManager/TaskManager.csproj"
 COPY . .
-WORKDIR "/src/src/Api"
-RUN dotnet build "Api.csproj" -c Release -o /app/build
+WORKDIR "/src/TaskManager"
+RUN dotnet build "TaskManager.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "Api.csproj" -c Release -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "TaskManager.csproj" -c Release -o /app/publish /p:UseAppHost=false
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "Api.dll"]
+ENTRYPOINT ["dotnet", "TaskManager.dll"]

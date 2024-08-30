@@ -1,10 +1,7 @@
 ﻿using Domain.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Domain.Services.Dto;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Services
 {
@@ -17,15 +14,18 @@ namespace Domain.Services
             _userRepository = userRepository;
         }
 
-        public bool Valid(string login, string password)
+        public AuthenticationResponse Valid(string login, string password)
         {
             var user = _userRepository.GetByLogin(login);
             if (user == null)
-                return false;
+                return new AuthenticationResponse(false, "");
 
             var passwordCript = Encrypt(password);
 
-            return user.Password == passwordCript;
+            if (user.Password == passwordCript)
+                return new AuthenticationResponse(true, user.Id.ToString());
+
+            return new AuthenticationResponse(false, "");
         }
 
         public string Encrypt(string value)

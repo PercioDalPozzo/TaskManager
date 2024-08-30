@@ -12,7 +12,7 @@ namespace Repository.Tests
         {
             // Arrange
             var context = new ContextFake().Build();
-            var any = context.User.FirstOrDefault();
+            var any = context.User.First();
 
             var repository = new UserRepository(context);
 
@@ -20,7 +20,7 @@ namespace Repository.Tests
             var response = repository.GetByLogin(any.Login);
 
             // Assert
-            Assert.Equal(any.Login, response.Login);
+            Assert.Equal(any.Login, response?.Login);
         }
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN Add THEN must add in context")]

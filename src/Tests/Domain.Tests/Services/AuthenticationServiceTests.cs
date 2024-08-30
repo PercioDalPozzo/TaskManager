@@ -20,7 +20,7 @@ namespace Domain.Tests.Services
             var response = service.Valid("someLogin", "somePassword");
 
             //Assert
-            Assert.False(response);
+            Assert.False(response.Valid);
         }
 
         [Fact(DisplayName = "GIVEN some login WHEN invalid password THEN must return invalid")]
@@ -39,7 +39,7 @@ namespace Domain.Tests.Services
             var response = service.Valid(login, "somePassword");
 
             //Assert
-            Assert.False(response);
+            Assert.False(response.Valid);
         }
 
         [Fact(DisplayName = "GIVEN some login WHEN is valid login THEN must return ok")]
@@ -58,7 +58,8 @@ namespace Domain.Tests.Services
             var response = service.Valid(login, "123456");
 
             //Assert
-            Assert.True(response);
+            Assert.True(response.Valid);
+            Assert.NotNull(response.UserId);
         }
 
         [Fact(DisplayName = "GIVEN some value WHEN encrypt THEN must return MD5")]

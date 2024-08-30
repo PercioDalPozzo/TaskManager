@@ -32,28 +32,28 @@ namespace Api.Controllers
         }
 
         [HttpGet("{userId}")]
-        public IActionResult GetAll(string userId)
+        public ActionResult GetAll(string userId)
         {
             var records = _queryHandler.Handle(new TaskQuery(Guid.Parse(userId)));
-            return new OkObjectResult(records);
+            return Ok(records);
         }
 
         [HttpPost]
-        public IActionResult Post(TaskCreateCommand command)
+        public ActionResult Post(TaskCreateCommand command)
         {
             var id = _createHandler.Handle(command);
-            return new OkObjectResult(new CreateResponseDto(id));
+            return Ok(new CreateResponseDto(id));
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public ActionResult Delete(string id)
         {
             _deleteHandler.Handle(new TaskDeleteCommand(Guid.Parse(id)));
             return Ok();
         }
 
         [HttpPut("{id}/complete")]
-        public IActionResult Complete(string id)
+        public ActionResult Complete(string id)
         {
             _concludeHandler.Handle(new TaskConcludeCommand(Guid.Parse(id)));
             return Ok();

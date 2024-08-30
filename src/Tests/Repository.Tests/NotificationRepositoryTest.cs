@@ -12,7 +12,7 @@ namespace Repository.Tests
         {
             // Arrange
             var context = new ContextFake().Build();
-            var any = context.Notification.FirstOrDefault();
+            var any = context.Notification.First();
 
             var repository = new NotificationRepository(context);
 
@@ -20,7 +20,7 @@ namespace Repository.Tests
             var response = repository.GetById(any.Id);
 
             // Assert
-            Assert.Equal(any.Id, response.Id);
+            Assert.Equal(any.Id, response?.Id);
         }
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN GetNotReadByUserId THEN must return records")]
@@ -68,7 +68,7 @@ namespace Repository.Tests
         {
             // Arrange
             var context = new ContextFake().Build();
-            var any = context.Notification.FirstOrDefault();
+            var any = context.Notification.First();
             any.ToRead();
 
             var repository = new NotificationRepository(context);

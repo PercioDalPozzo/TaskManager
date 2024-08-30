@@ -12,7 +12,7 @@ namespace Repository.Tests
         {
             // Arrange
             var context = new ContextFake().Build();
-            var any = context.Task.FirstOrDefault();
+            var any = context.Task.First();
 
             var repository = new TaskRepository(context);
 
@@ -20,7 +20,7 @@ namespace Repository.Tests
             var response = repository.GetById(any.Id);
 
             // Assert
-            Assert.Equal(any.Id, response.Id);
+            Assert.Equal(any.Id, response?.Id);
         }
 
         [Fact(DisplayName = "GIVEN this repository WHEN GetNotConcluded THEN must return records")]
@@ -94,7 +94,7 @@ namespace Repository.Tests
         {
             // Arrange
             var context = new ContextFake().Build();
-            var any = context.Task.FirstOrDefault();
+            var any = context.Task.First();
             any.Conclude();
 
             var repository = new TaskRepository(context);
@@ -113,7 +113,7 @@ namespace Repository.Tests
             // Arrange
             var context = new ContextFake().Build();
             var count = context.Task.Count();
-            var any = context.Task.FirstOrDefault();
+            var any = context.Task.First();
 
 
             var repository = new TaskRepository(context);

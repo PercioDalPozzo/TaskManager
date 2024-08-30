@@ -23,15 +23,15 @@ namespace Api.Controllers
         }
 
         [HttpGet("{userId}")]
-        public IActionResult GetByUserId(string userId)
+        public ActionResult GetByUserId(string userId)
         {
             var records = _queryHandler.Handle(new NotificationQuery(Guid.Parse(userId)));
-            return new OkObjectResult(records);
+            return Ok(records);
         }
 
 
         [HttpPut("{id}/read")]
-        public IActionResult Read(string id)
+        public ActionResult Read(string id)
         {
             _notificationReadHandler.Handle(new NotificationReadCommand(Guid.Parse(id)));
             return Ok();

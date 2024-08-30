@@ -5,6 +5,7 @@ using Domain.Commands.TaskDelete;
 using Domain.Commands.TaskQuery;
 using Domain.Interfaces;
 using Domain.Tests.Fakers;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -47,10 +48,11 @@ namespace Api.Tests
 
             queryHandlerMock.Verify(p => p.Handle(It.IsAny<TaskQuery>()), Times.Once());
 
-            Assert.NotNull(response);
-            Assert.Equal(3, records?.Records.Count());
-            Assert.Equal(StatusCodes.Status200OK, responseStatus.StatusCode);
+            response.Should().NotBeNull();
+            records?.Records.Should().HaveCount(3);
+            responseStatus.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
+
 
         [Fact(DisplayName = "GIVEN some request WHEN Delete THEN must call handler")]
         [Category("Controller")]
@@ -66,8 +68,8 @@ namespace Api.Tests
             //Assert
             deleteHandlerMock.Verify(p => p.Handle(It.IsAny<TaskDeleteCommand>()), Times.Once());
 
-            Assert.NotNull(response);
-            Assert.Equal(StatusCodes.Status200OK, responseStatus.StatusCode);
+            response.Should().NotBeNull();
+            responseStatus.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
 
         [Fact(DisplayName = "GIVEN some request WHEN Post THEN must call handler")]
@@ -87,8 +89,8 @@ namespace Api.Tests
 
             createHandlerMock.Verify(p => p.Handle(It.IsAny<TaskCreateCommand>()), Times.Once());
 
-            Assert.NotNull(response);
-            Assert.Equal(StatusCodes.Status200OK, responseStatus.StatusCode);
+            response.Should().NotBeNull();
+            responseStatus.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
 
         [Fact(DisplayName = "GIVEN some request WHEN Complete THEN must call handler")]
@@ -106,8 +108,8 @@ namespace Api.Tests
 
             concludeHandlerMock.Verify(p => p.Handle(It.IsAny<TaskConcludeCommand>()), Times.Once());
 
-            Assert.NotNull(response);
-            Assert.Equal(StatusCodes.Status200OK, responseStatus.StatusCode);
+            response.Should().NotBeNull();
+            responseStatus.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
     }
 }

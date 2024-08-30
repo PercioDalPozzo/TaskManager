@@ -1,4 +1,5 @@
 using Domain.Tests.Fakers;
+using FluentAssertions;
 using Repository.Tests.Fakers;
 using System.ComponentModel;
 
@@ -20,7 +21,7 @@ namespace Repository.Tests
             var response = repository.GetByLogin(any.Login);
 
             // Assert
-            Assert.Equal(any.Login, response?.Login);
+            response?.Login.Should().Be(any.Login);
         }
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN Add THEN must add in context")]
@@ -37,7 +38,7 @@ namespace Repository.Tests
             repository.Add(UserFaker.Build().Generate());
 
             // Assert
-            Assert.Equal(count + 1, context.User.Count());
+            context.User.Should().HaveCount(count + 1);
         }
     }
 }

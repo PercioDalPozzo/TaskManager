@@ -1,4 +1,4 @@
-using Domain.Entities;
+using FluentAssertions;
 using System.ComponentModel;
 using Task = Domain.Entities.Task;
 
@@ -16,18 +16,17 @@ namespace Domain.Tests.Entities
             var title = "Title";
             var description = "Description";
 
+            //Action
             var record = new Task(userId, title, description, limitToComplete);
 
-            //Action
-
             //Assert
-            Assert.NotEqual(Guid.Empty, record.Id);
-            Assert.NotEqual(Guid.Empty, record.UserId);
-            Assert.False(record.Concluded);
-            Assert.Equal(DateTime.Today, record.Created.Date);
-            Assert.Equal(title, record.Title);
-            Assert.Equal(description, record.Description);
-            Assert.Equal(limitToComplete, record.LimitToComplete);
+            record.Id.Should().NotBe(Guid.Empty);
+            record.UserId.Should().NotBe(Guid.Empty);
+            record.Concluded.Should().BeFalse();
+            record.Created.Date.Should().Be(DateTime.Today);
+            record.Title.Should().Be(title);
+            record.Description.Should().Be(description);
+            record.LimitToComplete.Should().Be(limitToComplete);
         }
 
         [Fact(DisplayName = "GIVEN a task WHEN Conclude THEN must set Concluded")]
@@ -46,7 +45,7 @@ namespace Domain.Tests.Entities
             record.Conclude();
 
             //Assert
-            Assert.True(record.Concluded);            
+            record.Concluded.Should().BeTrue();
         }
     }
 }

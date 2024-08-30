@@ -1,4 +1,5 @@
 using Domain.Entities;
+using FluentAssertions;
 using System.ComponentModel;
 
 namespace Domain.Tests.Entities
@@ -15,9 +16,9 @@ namespace Domain.Tests.Entities
             //Action
 
             //Assert
-            Assert.NotEqual(Guid.Empty, record.Id);
-            Assert.Equal("Pércio", record.Login);
-            Assert.Equal("123456", record.Password);
+            record.Id.Should().NotBe(Guid.Empty);
+            record.Login.Should().Be("Pércio");
+            record.Password.Should().Be("123456");
         }
     }
 }

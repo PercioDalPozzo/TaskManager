@@ -3,6 +3,7 @@ using Domain.Commands.NotificationQuery;
 using Domain.Commands.NotificationRead;
 using Domain.Interfaces;
 using Domain.Tests.Fakers;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -34,17 +35,16 @@ namespace Api.Tests
             // Action
             var response = controller.GetByUserId(Guid.NewGuid().ToString());
 
-            //Assert
+            // Assert
             var responseStatus = (ObjectResult)response;
             var records = (NotificationQueryResponse)responseStatus.Value;
 
             queryHandlerMock.Verify(p => p.Handle(It.IsAny<NotificationQuery>()), Times.Once());
 
-            Assert.NotNull(response);
-            Assert.Equal(3, records?.Records.Count());
-            Assert.Equal(StatusCodes.Status200OK, responseStatus.StatusCode);
+            response.Should().NotBeNull();
+            records?.Records.Should().HaveCount(3);
+            responseStatus.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
-
 
         [Fact(DisplayName = "GIVEN some request WHEN Read THEN must call handler")]
         [Category("Controller")]
@@ -56,11 +56,12 @@ namespace Api.Tests
 
             var responseStatus = (OkResult)response;
 
-            //Assert
+            // Assert
             notificationReadHandlerMock.Verify(p => p.Handle(It.IsAny<NotificationReadCommand>()), Times.Once());
 
-            Assert.NotNull(response);
-            Assert.Equal(StatusCodes.Status200OK, responseStatus.StatusCode);
+            response.Should().NotBeNull();
+            responseStatus.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
+
     }
 }

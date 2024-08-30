@@ -1,4 +1,5 @@
 using Domain.Tests.Fakers;
+using FluentAssertions;
 using Repository.Tests.Fakers;
 using System.ComponentModel;
 
@@ -20,7 +21,7 @@ namespace Repository.Tests
             var response = repository.GetById(any.Id);
 
             // Assert
-            Assert.Equal(any.Id, response?.Id);
+            response?.Id.Should().Be(any.Id);
         }
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN GetNotReadByUserId THEN must return records")]
@@ -42,7 +43,7 @@ namespace Repository.Tests
             var response = repository.GetNotReadByUserId(userId);
 
             // Assert
-            Assert.Equal(5, response.Count());
+            response.Should().HaveCount(5);
         }
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN Add THEN must add in context")]
@@ -59,7 +60,7 @@ namespace Repository.Tests
             repository.Add(NotificationFaker.Build().Generate());
 
             // Assert
-            Assert.Equal(count + 1, context.Notification.Count());
+            context.Notification.Should().HaveCount(count + 1);
         }
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN Update THEN must update in context")]
@@ -77,7 +78,7 @@ namespace Repository.Tests
             repository.Update(any);
 
             // Assert
-            Assert.True(context.Notification.Any(p => p.Read));
+            context.Notification.Should().Contain(p => p.Read);
         }
     }
 }

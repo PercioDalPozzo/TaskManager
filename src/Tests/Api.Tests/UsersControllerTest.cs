@@ -4,6 +4,7 @@ using Api.Dtos;
 using Domain.Commands.UserRegister;
 using Domain.Interfaces;
 using Domain.Services.Dto;
+using FluentAssertions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -43,8 +44,8 @@ namespace Api.Tests
 
             handler.Verify(p => p.Handle(It.IsAny<UserRegisterCommand>()), Times.Once());
 
-            Assert.NotNull(response);
-            Assert.Equal(StatusCodes.Status200OK, responseStatus.StatusCode);
+            response.Should().NotBeNull();
+            responseStatus.StatusCode.Should().Be(StatusCodes.Status200OK);
         }
 
         [Fact(DisplayName = "GIVEN some request WHEN Login is invalid THEN must return unauthorized")]
@@ -70,8 +71,8 @@ namespace Api.Tests
 
             authService.Verify(p => p.Valid(dto.Username, dto.Password), Times.Once());
 
-            Assert.NotNull(response);
-            Assert.Equal(StatusCodes.Status401Unauthorized, responseStatus.StatusCode);
+            response.Should().NotBeNull();
+            responseStatus.StatusCode.Should().Be(StatusCodes.Status401Unauthorized);
         }
 
         [Fact(DisplayName = "GIVEN some request WHEN Login is invalid THEN must return token")]
@@ -98,9 +99,9 @@ namespace Api.Tests
 
             authService.Verify(p => p.Valid(dto.Username, dto.Password), Times.Once());
 
-            Assert.NotNull(response);
-            Assert.Equal(StatusCodes.Status200OK, responseStatus.StatusCode);
-            Assert.Equal(3, loginResponse.Token.Split('.').Count());
+            response.Should().NotBeNull();
+            responseStatus.StatusCode.Should().Be(StatusCodes.Status200OK);
+            loginResponse.Token.Split('.').Should().HaveCount(3);
         }
     }
 }

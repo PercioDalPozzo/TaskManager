@@ -1,10 +1,9 @@
 using Domain.Commands.TaskQuery;
 using Domain.Interfaces;
+using Domain.Tests.Fakers;
+using FluentAssertions;
 using Moq;
 using System.ComponentModel;
-using Task = Domain.Entities.Task;
-using Bogus;
-using Domain.Tests.Fakers;
 
 namespace Domain.Tests.Entities
 {
@@ -27,7 +26,7 @@ namespace Domain.Tests.Entities
             var response = query.Handle(new TaskQuery(userId));
 
             //Assert
-            Assert.Equal(responseMocked.Count, response.Records.Count());
+            responseMocked.Count.Should().Be(response.Records.Count());
 
             taskRepositoryMock.Verify(p => p.GetAllByUserId(userId), Times.Once());
         }

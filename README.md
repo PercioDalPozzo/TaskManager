@@ -7,6 +7,7 @@
 - **Visual Studio 2022** com **ASP.NET Core (SDK .NET 6.0)**
 - **xUnit** para testes unitários
 - **Bogus** para geração de dados nos testes unitários
+- **FluentAssertions** para melhor compreensão dos testes
 - **Entity Framework Core** com banco de dados **InMemory**
 - API **RESTful** com autenticação **JWT**
 - **Quartz.NET** para implementação de jobs agendados

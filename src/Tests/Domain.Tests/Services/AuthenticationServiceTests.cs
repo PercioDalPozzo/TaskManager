@@ -1,6 +1,7 @@
 using Domain.Entities;
 using Domain.Interfaces;
 using Domain.Services;
+using FluentAssertions;
 using Moq;
 using System.ComponentModel;
 
@@ -20,7 +21,7 @@ namespace Domain.Tests.Services
             var response = service.Valid("someLogin", "somePassword");
 
             //Assert
-            Assert.False(response.Valid);
+            response.Valid.Should().BeFalse();
         }
 
         [Fact(DisplayName = "GIVEN some login WHEN invalid password THEN must return invalid")]
@@ -39,7 +40,7 @@ namespace Domain.Tests.Services
             var response = service.Valid(login, "somePassword");
 
             //Assert
-            Assert.False(response.Valid);
+            response.Valid.Should().BeFalse();
         }
 
         [Fact(DisplayName = "GIVEN some login WHEN is valid login THEN must return ok")]
@@ -58,8 +59,8 @@ namespace Domain.Tests.Services
             var response = service.Valid(login, "123456");
 
             //Assert
-            Assert.True(response.Valid);
-            Assert.NotNull(response.UserId);
+            response.Valid.Should().BeTrue();
+            response.UserId.Should().NotBeNull();
         }
 
         [Fact(DisplayName = "GIVEN some value WHEN encrypt THEN must return MD5")]
@@ -74,7 +75,7 @@ namespace Domain.Tests.Services
             var response = service.Encrypt("123456");
 
             //Assert
-            Assert.Equal("E10ADC3949BA59ABBE56E057F20F883E", response);
+            response.Should().Be("E10ADC3949BA59ABBE56E057F20F883E");
         }
     }
 }

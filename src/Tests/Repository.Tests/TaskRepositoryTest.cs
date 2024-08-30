@@ -1,4 +1,5 @@
 using Domain.Tests.Fakers;
+using FluentAssertions;
 using Repository.Tests.Fakers;
 using System.ComponentModel;
 
@@ -20,7 +21,7 @@ namespace Repository.Tests
             var response = repository.GetById(any.Id);
 
             // Assert
-            Assert.Equal(any.Id, response?.Id);
+            response?.Id.Should().Be(any.Id);
         }
 
         [Fact(DisplayName = "GIVEN this repository WHEN GetNotConcluded THEN must return records")]
@@ -47,7 +48,7 @@ namespace Repository.Tests
             var response = repository.GetNotConcluded(tomorrow);
 
             // Assert            
-            Assert.Equal(3, response.Count());
+            response.Should().HaveCount(3);
         }
 
 
@@ -68,7 +69,7 @@ namespace Repository.Tests
             var response = repository.GetAllByUserId(userId);
 
             // Assert
-            Assert.Equal(3, response.Count());
+            response.Should().HaveCount(3);
         }
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN Add THEN must add in context")]
@@ -85,7 +86,7 @@ namespace Repository.Tests
             repository.Add(TaskFaker.Build().Generate());
 
             // Assert
-            Assert.Equal(count + 1, context.Task.Count());
+            context.Task.Should().HaveCount(count + 1);
         }
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN Update THEN must update in context")]
@@ -103,7 +104,7 @@ namespace Repository.Tests
             repository.Update(any);
 
             // Assert
-            Assert.True(context.Task.Any(p => p.Concluded));
+            context.Task.Should().Contain(p => p.Concluded);
         }
 
         [Fact(DisplayName = "GIVEN this repositoty WHEN Delete THEN must update in context")]
@@ -122,7 +123,7 @@ namespace Repository.Tests
             repository.Delete(any);
 
             // Assert
-            Assert.Equal(count - 1, context.Task.Count());
+            context.Task.Should().HaveCount(count - 1);
         }
     }
 }

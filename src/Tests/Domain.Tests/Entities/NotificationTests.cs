@@ -1,4 +1,5 @@
 using Domain.Entities;
+using FluentAssertions;
 using System.ComponentModel;
 
 namespace Domain.Tests.Entities
@@ -15,12 +16,12 @@ namespace Domain.Tests.Entities
             //Action
 
             //Assert
-            Assert.NotEqual(Guid.Empty, record.Id);
-            Assert.NotEqual(Guid.Empty, record.UserId);
-            Assert.NotEqual(Guid.Empty, record.TaskId);
-            Assert.False(record.Read);
-            Assert.Equal(DateTime.Today, record.Created.Date);
-            Assert.Equal("Any message", record.Message);
+            record.Id.Should().NotBe(Guid.Empty);
+            record.UserId.Should().NotBe(Guid.Empty);
+            record.TaskId.Should().NotBe(Guid.Empty);
+            record.Read.Should().BeFalse();
+            record.Created.Date.Should().Be(DateTime.Today);
+            record.Message.Should().Be("Any message");
         }
 
         [Fact(DisplayName = "GIVEN a notification WHEN ToRead THEN must set Read and ReadDate")]
@@ -34,8 +35,9 @@ namespace Domain.Tests.Entities
             record.ToRead();
 
             //Assert
-            Assert.True(record.Read);
-            Assert.Equal(DateTime.Today, record.ReadDate?.Date);
+            record.Read.Should().BeTrue();
+            record.ReadDate?.Date.Should().Be(DateTime.Today);
+
         }
     }
 }
